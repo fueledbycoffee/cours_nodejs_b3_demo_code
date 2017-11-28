@@ -1,0 +1,7 @@
+extends ../layout
+
+block content
+    ul
+        each post in posts
+            li
+                a(href="blog/id/#{post._id}") #{post.title}

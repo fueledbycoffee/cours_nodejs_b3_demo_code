@@ -1,0 +1,7 @@
+extends ../layout
+
+block content
+    h1= blog.title
+    h3
+        | Posted on #{blog.date} by #{blog.author}
+    p= blog.content
