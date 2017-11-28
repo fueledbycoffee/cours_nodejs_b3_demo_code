@@ -1,0 +1,15 @@
+{
+  "name": "tp_router",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Sion GENDERS",
+  "license": "ISC",
+  "dependencies": {
+    "pug": "^2.0.0-rc.4"
+  }
+}
