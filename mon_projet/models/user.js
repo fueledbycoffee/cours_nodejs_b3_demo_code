@@ -5,6 +5,13 @@ var UserSchema = new Schema({
     username: String,
     password: String,
     email: String,
+    facebook : {
+        id : String,
+        token : String,
+    },
+    twitter : {
+        
+    }
 });
 
 var User = mongoose.model('User', UserSchema);

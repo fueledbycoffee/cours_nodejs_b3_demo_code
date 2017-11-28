@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 
 var isValidPassword = function(user, password) {
-    return bCrypt.compareSync(password, user.passport);
+    return bCrypt.compareSync(password, user.password);
 }
 
 var createHash = function(password){
@@ -13,7 +13,7 @@ var createHash = function(password){
    }
 
 module.exports = function(passport) {
-    
+
 passport.use('signup', new LocalStrategy({
     passReqToCallback: true
 }, function(req,username, password, done){
