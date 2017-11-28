@@ -9,7 +9,7 @@ router.get('/login', function(req, res) {
 });
 
 router.post('/login', passport.authenticate('login', {
-    succesRedirect : '/',
+    successRedirect : '/blog',
     failureRedirect :'/auth/login'
 }));
 
@@ -18,7 +18,7 @@ router.get('/signup', function(req, res){
 });
 
 router.post('/signup', passport.authenticate('signup', {
-    succesRedirect : '/',
+    successRedirect : '/blog',
     failureRedirect :'/auth/signup'
 }));
 
