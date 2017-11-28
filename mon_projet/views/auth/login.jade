@@ -1,0 +1,10 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            form(action="/auth/login", method="POST")
+                input(type='text', name='username' class='form-control', placeholder='Username',required, autofocus)
+                input(type='password', name='password' class='form-control', placeholder='Password', required)
+                button(class='btn btn-lg btn-primary btn-block', type='submit') Sign in
+            a(href='/auth/signup') Create a new account

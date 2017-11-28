@@ -5,14 +5,17 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var passport = require('passport');
+var expressSession = require('express-session');
 
-var post = require('./models/post');
+var Post = require('./models/post');
+var User = require('./models/user');
 
 var index = require('./routes/index');
 var hello = require('./routes/hello');
 var blog = require('./routes/blog');
+var auth = require('./routes/auth/auth');
 var api_blog = require('./routes/api/blog');
-
 
 var app = express();
 
@@ -22,6 +25,19 @@ mongoose.connect(mongoDB, {});
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+app.use(expressSession({ secret : 'DearPrincessCelestia' }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, done){
+  done(null, user._id);
+});
+passport.deserializeUser(function(id, done){
+  User.findById(id, function(err, user){
+    done(err, user);
+  });
+});
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -34,6 +50,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index); 
 app.use('/hello', hello); 
 app.use('/blog', blog);
+app.use('/auth', auth);
 app.use('/api/blog', api_blog);
 
 // catch 404 and forward to error handler
