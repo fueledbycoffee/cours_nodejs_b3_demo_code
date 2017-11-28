@@ -11,6 +11,7 @@ var post = require('./models/post');
 var index = require('./routes/index');
 var hello = require('./routes/hello');
 var blog = require('./routes/blog');
+var api_blog = require('./routes/api/blog');
 
 
 var app = express();
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index); 
 app.use('/hello', hello); 
 app.use('/blog', blog);
+app.use('/api/blog', api_blog);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

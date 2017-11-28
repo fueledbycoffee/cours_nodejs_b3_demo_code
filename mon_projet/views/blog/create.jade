@@ -1,0 +1,17 @@
+extends ../layout
+
+block content
+    form(method="POST")
+        .form-group
+            label(for="titleInput") Title
+            input#titleInput(type="text", name="title")
+        .form-group
+            label(for="contentInput") Content
+            textarea#contentInput(name="content")
+        .form-group
+            label(for="authorInput") Author
+            input#authorInput(type="text", name="author")
+        .form-group
+            label(for="publishedInput") Published
+            input#publishedInput(type="checkbox", name="published" checked)
+        input(type="submit", value="Envoyé c'est pesé") 
