@@ -8,8 +8,8 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var expressSession = require('express-session');
 
-var Post = require('./models/post');
 var User = require('./models/user');
+var Post = require('./models/post');
 
 var index = require('./routes/index');
 var hello = require('./routes/hello');

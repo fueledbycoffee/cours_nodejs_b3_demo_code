@@ -36,6 +36,8 @@ router.post('/create', isAuth, function(req, res) {
 
     post.permalink = pl;
 
+    post.user = req.user;
+
     Post.create(post, function(err, item) {
         res.redirect("/blog");
     });
@@ -46,12 +48,13 @@ router.post('/create', isAuth, function(req, res) {
 // View Post
 router.get('/id/:id', function(req, res) {
     Post.findById(req.params.id, function(err, item){
+        console.log(item);
         res.render('blog/view', { blog: item });
     })
 });
 
 router.get('/permalink/:permalink', function(req, res){
-    Post.findOne({ permalink : req.params.permalink },function(err, item){
+    Post.findOne({ permalink : req.params.permalink }).populate('user').exec(function(err, item){
         res.render('blog/view', {blog: item});
     });
 });
@@ -64,6 +67,19 @@ router.get("/delete/:id",isAuth, function(req, res) {
         
         res.redirect('/blog');
     });
+});
+
+router.post("/post_comment/:id", function(req, res){
+    Post.findById(req.params.id, function(err, item){
+        if(err)
+            return res.send(err);
+
+            req.body.date = new Date();
+            item.comments.push(req.body);
+            item.save(function(err, item){
+                res.redirect("/blog/permalink/" + item.permalink);
+            })
+    })
 });
 
 // DEV -> Create Post

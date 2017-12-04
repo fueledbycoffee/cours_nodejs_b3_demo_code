@@ -3,5 +3,23 @@ extends ../layout
 block content
     h1= blog.title
     h3
-        | Posted on #{blog.date} by #{blog.author}
+        | Posted on #{blog.date} by #{blog.user.email}
     p= blog.content
+    div
+        form(action="/blog/post_comment/#{blog._id}", method="POST")
+            .form-group
+                label("Message :")
+                input(name="message", type="text")
+            .form-group
+                label("Author")
+                input(name="author", type="text")
+            .form-group 
+                input(type="submit", value="Balance !")
+    div
+        each comment in blog.comments
+            div
+                p #{comment.message} from #{comment.author}
+    
+
+
+        

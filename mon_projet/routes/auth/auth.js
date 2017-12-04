@@ -3,13 +3,23 @@ var router = express.Router();
 var passport = require('passport');
 require('../../passport/local_login')(passport);
 require('../../passport/local_signup')(passport);
-require('../../passport/facebook')(passport);
+require('../../passport/facebook')(passport);;
+require('../../passport/twitter')(passport);
 
 router.get('/login', function(req, res) {
   res.render('auth/login');
 });
 
 router.get('/facebook', passport.authenticate('facebook', {
+    scope : ['public_profile', 'email']
+}));
+
+router.get('/twitter/callback', passport.authenticate('twitter', {
+    successRedirect : '/blog',
+    failureRedirect : '/auth/login'
+}));
+
+router.get('/twitter', passport.authenticate('twitter', {
     scope : ['public_profile', 'email']
 }));
 

@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var User = mongoose.model('User');
 
 var PostSchema = new Schema({
     title : String,
@@ -7,7 +8,14 @@ var PostSchema = new Schema({
     permalink : String,
     author : String,
     date : Date,
-    published : Boolean
+    published : Boolean,
+    comments: [{
+        author : String,
+        message : String,
+        date : String
+    }],
+
+    user : { type: mongoose.Schema.Types.ObjectId, ref: "User"}
 });
 
 var Post = mongoose.model('Post', PostSchema);
