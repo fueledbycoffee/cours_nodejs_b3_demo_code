@@ -1,11 +1,19 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
+var cluster = require('cluster');
+var numCPUs = require('os').cpus().length;
 
-var app = require('../app');
+if(cluster.isMaster)
+{
+    for(var i = 0; i < numCPUs; i++)
+    {
+        cluster.fork();
+    }
 
-/**
- * Get port from environment and store in Express.
- */
+    cluster.on('exit', function(worker, code, signal) {
+        console.log("worker " + worker.process.pid + ' died');
+    });
+} else {
+    var app = require('../app');
+}
+

@@ -10,7 +10,7 @@ block content
                         input#message(name="content", type="text", placeholder="What are you up to today?")
                         input.btn.btn-default(type="submit", value="Go !")
         .panel-body
-            ul
+            ul#messagesList
                 if messages.length > 0
                     each message in messages 
                         li

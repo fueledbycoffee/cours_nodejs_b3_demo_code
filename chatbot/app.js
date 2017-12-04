@@ -7,8 +7,12 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var expressSession = require('express-session');
+var redis = require('redis');
+var redisStore = require('connect-redis')(expressSession);
+var ioRedis = require('socket.io-redis');
 var debug = require('debug')('chatbot:server');
 var http = require('http');
+var sticky = require('sticky-session');
 
 var User = require('./models/user');
 var Message = require('./models/message');
@@ -25,7 +29,13 @@ mongoose.connect(mongoDB, {});
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(expressSession({ secret : 'DearPrincessCelestia' }));
+var client  = redis.createClient();
+app.use(expressSession({ 
+  secret : 'DearPrincessCelestia',
+  store : new redisStore({host: 'localhost', port: 6379, client: client, ttl : 260 }),
+  saveUninitialized: false,
+  resave: false
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -68,17 +78,23 @@ app.use(function(err, req, res, next) {
 });
 
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = 3000;
 app.set('port', port);
 
 
 var server = http.createServer(app);
 var io = require('socket.io')(server);
+io.adapter(ioRedis({ host: 'localhost', port: 6379 }));
+
 
 app.set('socketio', io);
 
 
+sticky.listen(server, port, function() {
+  console.log('Server started listening on port : ' + port);
+});
 server.listen(port);
+
 server.on('error', onError);
 server.on('listening', onListening);
 

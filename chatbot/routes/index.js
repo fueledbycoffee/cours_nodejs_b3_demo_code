@@ -17,6 +17,7 @@ router.post('/new', isAuth, function(req, res) {
   message.user = req.user
 
   Message.create(message, function(err, item){
+    req.app.get('socketio').emit('new-message', message);
     res.redirect('/');
   });
 });
